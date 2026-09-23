@@ -1,4 +1,5 @@
 # Месяц — сезон
+# Добавлен комментарий в файл_5
 def month_to_season(month):
     if (1 < month < 2) or (month == 12):
         return "зима"
