@@ -11,10 +11,10 @@ class User:
         print(self.last_name)
 
     def printFullname(self):
-        print(self.first_name + " " + self.last_name)
+        print(self.first_name, self.last_name)
 
 
-alex = User("Alex", "Melnikov")
-alex.printfirst_name()
-alex.printlast_name()
-alex.printFullname()
+# alex = User("Alex", "Melnikov")
+# alex.printfirst_name()
+# alex.printlast_name()
+# alex.printFullname()
