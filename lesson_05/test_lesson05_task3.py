@@ -2,7 +2,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 
 
-def test_form_submission():
+def test_multiple_elements():
     driver = webdriver.Chrome()
     driver.get("https://httpbin.qa-territory.online/links/10")
     # Находим все ссылки на странице

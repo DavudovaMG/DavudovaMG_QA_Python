@@ -1,5 +1,7 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 
 def test_form_submission():
@@ -11,5 +13,6 @@ def test_form_submission():
 
     driver.find_element(By.XPATH, "//button[contains(text(), 'Submit')]"
                         ).click()
+    WebDriverWait(driver, 5).until(EC.url_changes(original_url))
     assert driver.current_url != original_url
     driver.quit()
