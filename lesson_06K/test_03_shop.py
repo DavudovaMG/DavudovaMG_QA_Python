@@ -65,12 +65,13 @@ def test_shop():
          EC.visibility_of_element_located(
              (By.CSS_SELECTOR, ".summary_total_label")))
     driver.save_screenshot("lesson_06K/screenshots/Total_1.png")
+    # ВАЖНО: сохраняем текст в переменную ДО закрытия браузера
+    total_text = total_element.text.strip()
+    print(f"Текст сохранён в переменную: {total_text!r}")
+    # Закройте браузер
+    driver.quit()
     # Проверьте, что итоговая сумма равна $58.29
-    total_text = total_element.text
-
     expected = "Total: $58.29"
     assert total_text == expected, (
         f"Ожидалось '{expected}', но получено: '{total_text}'")
     print("Тест пройден: итоговая сумма верна.")
-    # Закройте браузер
-    driver.quit()
