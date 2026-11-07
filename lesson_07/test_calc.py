@@ -14,9 +14,11 @@ def driver():
 def test_calc_page(driver):
     calc_page = CalcPage(driver)
     calc_page.open()
-    calc_page.delay_input()
-    calc_page.test_calc()
-    calc_page.check_form_result()
-    calc_page.check_form_result()
-    result = calc_page.check_form_result()
-    assert result == "15", f"Ожидался результат 15, но получено: {result}"
+    calc_page.set_delay("45")
+    calc_page.test_calc("7")
+    calc_page.test_calc("+")
+    calc_page.test_calc("8")
+    calc_page.test_calc("=")
+    result_text = calc_page.check_form_result()
+    assert result_text == "15", f"Ожидался результат 15, но получено: {
+        result_text}"

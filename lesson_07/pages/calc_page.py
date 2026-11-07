@@ -6,10 +6,6 @@ from selenium.webdriver.support import expected_conditions as EC
 class CalcPage:
 
     DELAY_INPUT = (By.ID, "delay")
-    SEVEN_BUTTON = (By.XPATH, "//span[text()='7']")
-    PLUS_BUTTON = (By.XPATH, "//span[text()='+']")
-    EIGHT_BUTTON = (By.XPATH, "//span[text()='8']")
-    EQUAL_BUTTON = (By.XPATH, "//span[text()='=']")
     RESULT_FIELD = (By.CSS_SELECTOR, "div.screen")
 
     def __init__(self, driver):
@@ -21,30 +17,25 @@ class CalcPage:
     def open(self):
         self.driver.get(self.url)
 
-    def delay_input(self):
-        delay_input = self.wait.until(EC.visibility_of_element_located(
+    def set_delay(self, delay_time):
+        delay_field = self.wait.until(EC.visibility_of_element_located(
             (self.DELAY_INPUT)))
-        delay_input.clear()
-        delay_input.send_keys(45)
-        self.driver.save_screenshot(
-            "lesson_07/screenshots_07/test_calc_1.png")
+        delay_field.clear()
+        delay_field.send_keys(delay_time)
 
-    def test_calc(self):
-        # Нажатие кнопки 7
-        self.driver.find_element(*self.SEVEN_BUTTON).click()
-        # Нажатие на +
-        self.driver.find_element(*self.PLUS_BUTTON).click()
-        # Нажатие на 8
-        self.driver.find_element(*self.EIGHT_BUTTON).click()
-        # Нажатие на =
-        self.driver.find_element(*self.EQUAL_BUTTON).click()
+    def test_calc(self, button_value: str):
+        #  формирование локатора «на лету»
+        safe = button_value.replace("'", "\\'")
+        locator = self.driver.find_element(
+            By.XPATH, f"//span[normalize-space()='{safe}']"
+            )
+        button = self.wait.until(EC.element_to_be_clickable(locator))
+        button.click()
 
     def check_form_result(self):
         # Ждём появления результата в .screen
         self.wait.until(EC.text_to_be_present_in_element(
             (self.RESULT_FIELD), "15"))
         screen = self.driver.find_element(*self.RESULT_FIELD)
-        self.driver.save_screenshot(
-            "lesson_07/screenshots_07/test_calc_2.png")
         result_text = screen.text.strip()
         return result_text
