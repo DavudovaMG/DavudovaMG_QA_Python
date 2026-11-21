@@ -68,7 +68,6 @@ def test_update_project_invalid_title_type(project_id, api_token):
     url = f"{base_url}/api-v2/projects/{project_id}"
     put_resp = requests.put(
         url, json=new_project, headers=my_headers)
-    # resp.raise_for_status()
     print("URL запроса:", url)
     print("PUT статус:", put_resp.status_code)
     print("Ответ:", put_resp.text)
@@ -87,8 +86,9 @@ def test_update_project_invalid_title_type(project_id, api_token):
 
     assert "title" in get_data
     # Здесь мы подтверждаем, что название НЕ стало 12345
-    assert get_data["title"] != 12345, "Проект не должен"
-    "был обновиться до числа"
+    assert get_data["title"] != 12345, (
+        "Проект не должен был обновиться до числа"
+        )
     print("Проект не обновился: название осталось прежним.")
 
 
@@ -103,12 +103,12 @@ def test_get_project_existent_id(project_id, api_token):
     url = f"{base_url}/api-v2/projects/{project_id}"
     resp = requests.get(
         url, headers=my_headers)
-    # # resp.raise_for_status()
     print("URL запроса:", url)
     print("Статус:", resp.status_code)
     print("Ответ:", resp.text)
-    assert resp.status_code == 200
-    f"Ожидался 200 для существующего проекта, но получен {resp.status_code}"
+    assert resp.status_code == 200, (
+     f"Ожидался 200 для существующего проекта, но получен {resp.status_code}"
+    )
 
 
 # Получить по ID
@@ -124,22 +124,23 @@ def test_get_project_nonexistent_id(api_token):
     url = f"{base_url}/api-v2/projects/{nonexistent}"
     resp = requests.get(
         url, headers=my_headers)
-    # # resp.raise_for_status()
     print("URL запроса:", url)
     print("Статус:", resp.status_code)
     print("Ответ:", resp.text)
-    assert resp.status_code == 404
-    f"Ожидался 404 для несуществующего проекта, но получен {resp.status_code}"
+    assert resp.status_code == 404, (
+     f"Ожидался 404 для несуществующего проекта, но получен {resp.status_code}"
+    )
     # Проверка, что в ответе нет валидного объекта проекта
     # Если API возвращает JSON с ошибкой — парсим его, если
     # plain text — пропускаем
     if resp.headers.get("Content-Type", "").startswith("application/json"):
         data = resp.json()
         # В случае 404 там не должно быть полей id/title как у проекта
-        assert "id" not in data, "В ответе на 404 не должен быть валидный "
-        "id проекта"
-        assert "title" not in data, "В ответе на 404 не должно быть "
-        "title проекта"
+        assert "id" not in data, (
+            "В ответе на 404 не должен быть валидный id проекта"
+        )
+        assert "title" not in data, (
+            "В ответе на 404 не должно быть title проекта")
     else:
         # Если это не JSON, то тем более нельзя ожидать id/title
         pass
