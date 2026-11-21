@@ -216,3 +216,12 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Переменные окружения
+.env
+.env.*
+
+# На случай, если ты делаешь отдельные файлы под окружение
+.env.local
+.env.dev
+.env.prod
